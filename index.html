@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      #main,
+      #user,
+      #send {
+        margin: 3em;
+      }
+    </style>
+    <title>gorm</title>
+  </head>
+  <body>
+    <script>
+      const loggedInText = user =>
+        'Hello! You have logged in as ' +
+        user.username +
+        ' with password ' +
+        user.password +
+        '.'
+
+      const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'admin' })
+      }
+      const fetchUser = () =>
+        fetch('http://localhost:8080/login', options)
+          .then(res => res.json())
+          .then(data => data)
+
+      const setUser = () => {
+        const el = document.getElementById('user')
+        fetchUser().then(user => {
+          console.log(user)
+          el.innerHTML = loggedInText(user)
+        })
+      }
+    </script>
+    <div id="main">
+      <div id="user">You are Not Logged In.</div>
+      <button id="send" onClick="setUser()">Login</button>
+    </div>
+  </body>
+</html>
